@@ -1,7 +1,7 @@
 pub struct Tun {}
 
 impl Tun {
-    pub fn init() -> tun::Configuration {
+    pub fn init() -> Option<tun::Configuration> {
         let mut config = tun::Configuration::default();
         config
             .address((10, 0, 0, 9))
@@ -14,6 +14,6 @@ impl Tun {
             config.packet_information(true);
         });
 
-        config
+        Some(config)
     }
 }

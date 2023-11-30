@@ -7,7 +7,14 @@ mod structtun;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let mut stream = tun::create_as_async(&Tun::init()).unwrap().into_framed();
+    let mut stream;
+
+    match Tun::init() {
+        Some(config) => {
+            stream = tun::create_as_async(&config).unwrap().into_framed();
+        }
+        None => panic!("Can't configure tun"),
+    }
 
     while let Some(packet) = stream.next().await {
         match packet {
