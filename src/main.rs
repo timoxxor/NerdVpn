@@ -1,5 +1,5 @@
 use crate::structtun::Tun;
-use std::error::Error;
+use std::{error::Error, net::UdpSocket};
 
 use futures::StreamExt;
 
@@ -20,9 +20,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
         match packet {
             Ok(pkt) => {
                 // do some crazy shit with networking
-                let amount = pkt.get_bytes();
-                let len = amount.len();
-                println!("Size: {:?}", len);
+                let buf = pkt.get_bytes();
+                let rec_msg = String::from_utf8(buf[..len].to_vec());
+
+                println!("{:?}", rec_msg);
             }
             Err(err) => panic!("Error: {:?}", err),
         }
