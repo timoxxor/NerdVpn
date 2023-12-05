@@ -1,3 +1,5 @@
+const TUN_INTERFACE_NAME: &str = "tun";
+
 pub struct Tun {}
 
 impl Tun {
@@ -5,6 +7,7 @@ impl Tun {
         let mut config = tun::Configuration::default();
         config
             .address((10, 0, 0, 9))
+            .name(TUN_INTERFACE_NAME)
             .broadcast((192, 168, 102, 127))
             .netmask((255, 255, 255, 0))
             .up();
